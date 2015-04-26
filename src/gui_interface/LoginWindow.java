@@ -1,5 +1,6 @@
 package gui_interface;
 
+import functional.UserData;
 import lang.Strings_EN;
 import lang.Strings_RU;
 import functional.XmlFileWorking;
@@ -41,6 +42,7 @@ public class LoginWindow extends JFrame {
 
     public LoginWindow() {
         super("Login");   // В дальнейшем сделать константой
+        UserData.currentUser = null;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(addComponentsToForm());
         pack();
