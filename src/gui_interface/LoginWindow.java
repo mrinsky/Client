@@ -247,26 +247,51 @@ public class LoginWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String message = "";
 
-                XmlFileWorking xml = new XmlFileWorking();
+                //loadTableData(message);
+                MyClient.initSystem();
                 try {
-                    xml.loadAll(Resources.traditions,Resources.countries,Resources.holidays);
-                }
-                catch (IOException e1) {
-                    message = Resources.language.getIO_ERROR();
-                } catch (JDOMException e1) {
-                    message = Resources.language.getXML_ERROR();
+                    Resources.clientOut.println("loadAllData");
+                    Resources.clientOut.println("getCountry");
+                    if ((tempFromServer = Resources.clientIn.readLine())!= null){
+                        System.out.println(tempFromServer);
+                        xmlFileWorking.stringToXML(Resources.TEMP_XML, tempFromServer);
+                        Resources.countries = xmlFileWorking.loadCountry(Resources.TEMP_XML);
+                        tempFromServer = null;
+                    }
+                    Resources.clientOut.println("getHoliday");{
+                        if ((tempFromServer = Resources.clientIn.readLine())!= null){
+                            System.out.println(tempFromServer);
+                            xmlFileWorking.stringToXML(Resources.TEMP_XML, tempFromServer);
+                            Resources.holidays = xmlFileWorking.loadHoliday(Resources.TEMP_XML);
+                            tempFromServer = null;
+                        }
+                    }
+                    Resources.clientOut.println("getTradition");
+                    {
+                        if ((tempFromServer = Resources.clientIn.readLine()) != null) {
+                            System.out.println(tempFromServer);
+                            xmlFileWorking.stringToXML(Resources.TEMP_XML, tempFromServer);
+                            Resources.traditions = xmlFileWorking.loadTradition(Resources.TEMP_XML);
+                            tempFromServer = null;
+                        }
+                    }
                 } catch (SAXException e1) {
-                    message = Resources.language.getXML_ERROR();
-                } catch (ClassNotFoundException e1) {
-                    message = Resources.language.getCLASS_NOT_FOUND_ERROR();
+                    e1.printStackTrace();
                 } catch (ParseException e1) {
-                    message = Resources.language.getPARSE_ERROR();
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JDOMException e1) {
+                    e1.printStackTrace();
                 }
-                if (!message.isEmpty()) JOptionPane.showMessageDialog(null,message);
-                dispose();
-                MainWindow.main(true);
+
+                if (!message.isEmpty()) JOptionPane.showMessageDialog(null, message);
+                else {
+                    dispose();
+                    MainWindow.main(true);
+                }
             }
-        });
+            });
         guestButtonInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -370,5 +395,4 @@ public class LoginWindow extends JFrame {
         });
 
     }
-
 }

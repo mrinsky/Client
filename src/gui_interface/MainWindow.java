@@ -9,6 +9,7 @@ import model.Tradition;
 import org.jdom2.JDOMException;
 import org.xml.sax.SAXException;
 
+import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -68,12 +69,13 @@ public class MainWindow extends JFrame {
                         Resources.clientOut.println(xmlFileWorking.xmlToString(Resources.TEMP_XML));
                         xmlFileWorking.saveTradition(Resources.traditions, Resources.TEMP_XML);
                         Resources.clientOut.println(xmlFileWorking.xmlToString(Resources.TEMP_XML));
-                        Resources.clientOut.println("logOut");
                         Resources.language = new Strings_EN();
+                        UserData.currentUser = null;
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, Resources.language.getIO_ERROR());
                     }
                 }
+                Resources.clientOut.println("logOut");
                 LoginWindow.main();
                 super.windowClosing(windowEvent);
             }
