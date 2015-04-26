@@ -1,0 +1,41 @@
+Heretic 2.0 
+This program allows you to add holidays in your own collection
+
+AUTHORIZATION
+If you have an account, enter your login and password in the suitable fields to connect to the server
+If you don't have it, click on "Registration" and choose a unique, amazing logn and password
+After creating some traditions will be added to your account for paganism propaganda
+(it can be removed or integrated in your life)
+
+MAIN WINDOW
+In the table you can see traditions what have been already added to your library.
+
+For ADDING a new tradition click the "Edit" menu and choose the "Add" item
+In appeared window enter needed information and press OK
+In case of existing tradition or blank fielss will be shown a message
+
+For CHANGING an existing tradition make a double-click on the table item
+There will be open a new window for changing
+
+To REMOVE use the right-button click menu or "Edit" menu items
+Remove - remove the selected table item
+Remove all marked - remove all marked table items
+
+To SEARCH use:
+1. Serch string field, to where you should enter a query
+2. "Search" menu and of its item
+	a) by date - choose the current date
+	b) by date range - choose two dates
+	c) by mask - fill one or more fields for more accurate searching
+	d) by regular - regular expressions are created by the next rules and point what tradition attributes have
+		"." - any symbol
+		"*" - set of any symbols
+		"[a-z]" - lower symbols from a to z
+		"[A-Z]" - upper symbols from A to Z
+		"[1-9]" - numbers from 1 to 9
+		"[Tt]" - choose letters - T or t
+		"[^A]" - not A, any symbol but A
+	For example, query like this "A*" will found all traditions with holiday or country starts from A with a set of any symbols after it
+	Argentina and Austria are both suitable for this regular
+
+Good luck!
