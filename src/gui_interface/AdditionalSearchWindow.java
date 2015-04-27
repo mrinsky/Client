@@ -28,7 +28,7 @@ import java.util.*;
  * Created by root on 22.03.15.
  */
 
-public class SearchWindow extends JFrame {
+public class AdditionalSearchWindow extends JFrame {
     /*************************
      * Components
      *************************/
@@ -73,7 +73,7 @@ public class SearchWindow extends JFrame {
      *                  3 - расширенный поиск;
      *                  4 - поиск по регулярным выражениям.
      */
-    public SearchWindow(int param_num) {
+    public AdditionalSearchWindow(int param_num) {
         super(Resources.language.getSEARCH_MENU_BAR());
         currentParamNum = param_num;
         setContentPane(addComponentsToForm(param_num));
