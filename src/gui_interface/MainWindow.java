@@ -234,6 +234,7 @@ public class MainWindow extends JFrame {
                         e1.printStackTrace();
                     } catch (ParseException e1) {
                         e1.printStackTrace();
+                    } catch (NullPointerException exc) {
                     }
                     // Resources.traditions = Search.search(searchField.getText(), Resources.traditions);
                 }
