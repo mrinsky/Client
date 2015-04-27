@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="model">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Server/out/artifacts/model/model.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Server/out/artifacts/func/func.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Server/out/artifacts/langlib/langlib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
+  </library>
+</component>

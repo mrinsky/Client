@@ -161,6 +161,8 @@ public class RegistrationForm extends JFrame{
                 catch (IllegalArgumentException ex) {
                     wrongPass.setText(ex.getMessage());
                     wrongPass.setVisible(true);
+                } catch (IOException e1) {
+                    Resources.language.getIO_ERROR();
                 }
             }
         });

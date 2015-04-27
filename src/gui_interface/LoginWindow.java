@@ -250,7 +250,11 @@ public class LoginWindow extends JFrame {
                 String message = "";
 
                 //loadTableData(message);
-                MyClient.initSystem();
+                try {
+                    MyClient.initSystem();
+                } catch (IOException e1) {
+                    Resources.language.getIO_ERROR();
+                }
                 try {
                     Resources.clientOut.println("loadAllData");
                     Resources.clientOut.println("getCountry");

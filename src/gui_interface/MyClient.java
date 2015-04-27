@@ -7,31 +7,23 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class MyClient {
-    public static void initClient(String name) {
+public class MyClient  {
+    public static void initClient(String name)  throws IOException{ //иницилизация клиента
+
         String fuser, fserver;
 
         Socket fromserver = null;
-        try {
+
             fromserver = new Socket("localhost", 4444);
-        } catch (IOException e) {
-
-        }
 
 
-        try {
             Resources.clientIn = new BufferedReader
                     (new InputStreamReader(fromserver.getInputStream()));
-        } catch (IOException e) {
 
-        }
-        ;
-        try {
+
             Resources.clientOut = new PrintWriter
                     (fromserver.getOutputStream(), true);
-        } catch (IOException e) {
 
-        }
         BufferedReader inu = new BufferedReader
                 (new InputStreamReader(System.in));
         //Устанавливаем имя 
@@ -39,28 +31,21 @@ public class MyClient {
 
 
     }
-    public static void initSystem() throws NullPointerException{
+    public static void initSystem() throws NullPointerException, IOException { //иницилизирование потока системы
         Socket fromserver = null;
-        try {
+
             fromserver = new Socket("localhost", 4444);
-        } catch (IOException e) {
-
-        }
 
 
-        try {
+
+
             Resources.clientIn = new BufferedReader
                     (new InputStreamReader(fromserver.getInputStream()));
-        } catch (IOException e) {
 
-        }
 
-        try {
             Resources.clientOut = new PrintWriter
                     (fromserver.getOutputStream(), true);
-        } catch (IOException e) {
 
-        }
         BufferedReader inu = new BufferedReader
                 (new InputStreamReader(System.in));
 
@@ -68,30 +53,22 @@ public class MyClient {
 
 
     }
-    public static void closeSystem() {
+    public static void closeSystem() throws IOException {//закрытие потока системы
         String fuser, fserver;
 
         Socket fromserver = null;
-        try {
+
             fromserver = new Socket("localhost", 4444);
-        } catch (IOException e) {
-
-        }
 
 
-        try {
+
             Resources.clientIn = new BufferedReader
                     (new InputStreamReader(fromserver.getInputStream()));
-        } catch (IOException e) {
 
-        }
-        ;
-        try {
+
             Resources.clientOut = new PrintWriter
                     (fromserver.getOutputStream(), true);
-        } catch (IOException e) {
 
-        }
         BufferedReader inu = new BufferedReader
                 (new InputStreamReader(System.in));
         //Устанавливаем имя
