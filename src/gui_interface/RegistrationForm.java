@@ -1,9 +1,6 @@
 package gui_interface;
 
-import functional.Registration;
-import functional.UserData;
 import functional.XmlFileWorking;
-import model.User;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -14,20 +11,21 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public class RegistrationForm extends JFrame{
-
-    //region Components
+    /*************************
+     * Components
+     *************************/
     JTextField loginTF;
     JPasswordField onePassTF;
     JPasswordField twoPassTF;
     JLabel wrongPass;
     JButton okButton = new JButton("ОК");
-
     String tempFromServer = null;
     XmlFileWorking xmlFileWorking = new XmlFileWorking();
-    //endregion
-
+    /*************************
+     * Constructors
+     *************************/
     public RegistrationForm(){
-        super("Registration");
+        super(Resources.language.getCREATE_ACCOUNT());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(addComponents());
         setPreferredSize(new Dimension(220,250));
@@ -36,8 +34,12 @@ public class RegistrationForm extends JFrame{
         setResizable(false);
         addListener();
     }
-    public Box addComponents(){
 
+    /*************************
+     * Init form components
+     *************************/
+    public Box addComponents(){
+        //Создаем бокс формы.
         Box frameBox = Box.createVerticalBox();
         Box.createHorizontalBox();
         JLabel loginLabel = new JLabel(Resources.language.getENTER_LOGIN());
@@ -45,7 +47,6 @@ public class RegistrationForm extends JFrame{
         frameBox.add(loginLabel);
         loginTF = new JTextField(15);
         frameBox.add(loginTF);
-
         frameBox.add(Box.createVerticalStrut(10));
         JLabel onePassLabel = new JLabel(Resources.language.getENTER_PASSWORD());
         onePassLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -126,22 +127,26 @@ public class RegistrationForm extends JFrame{
 
     }
 
+    /************************
+     * Methods
+     ************************/
+    //Оформление надписи, появляющейся в случае
+    //ввода неправильного пароля.
     private void initWrongPass() {
         wrongPass = new JLabel(Resources.language.getPASS_EXCEPTION());
         wrongPass.setVisible(false);
         wrongPass.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         wrongPass.setForeground(Color.red);
     }
-
+    //Добавление обработчиков событий.
     public void addListener(){
         addWindowListener(new WindowAdapter() {
+            //Обработчк закрытия окна.
             @Override
             public void windowClosing(WindowEvent e) {
                 LoginWindow loginWindow = new LoginWindow();
                 loginWindow.setVisible(true);
                 dispose();
-
-
             }
         });
         okButton.addActionListener(new ActionListener() {
@@ -165,24 +170,18 @@ public class RegistrationForm extends JFrame{
         try {
         Resources.clientOut.println( xmlFileWorking.sendDataRegToServer_Registration(
                 loginTF.getText(), new String(onePassTF.getPassword()), new String(twoPassTF.getPassword())));
-            System.out.println(xmlFileWorking.sendDataRegToServer_Registration(
-                    loginTF.getText(), new String(onePassTF.getPassword()), new String(twoPassTF.getPassword())));
-                //Отправили данные для регистрации на сервер
-
+            //Отправили данные для регистрации на сервер.
             if ((tempFromServer = Resources.clientIn.readLine())!= null){
-                System.out.println(tempFromServer);
-                if ("Error".equals(tempFromServer)) new IllegalArgumentException();//текст ошибки в скобках прописать
-                else
-                {Resources.clientOut.println("getCountry");
+                if ("Error".equals(tempFromServer)) new IllegalArgumentException(Resources.language.getWRONG_CHOICE());//текст ошибки в скобках прописать
+                else {
+                    Resources.clientOut.println("getCountry");
                     if ((tempFromServer = Resources.clientIn.readLine())!= null){
-                        System.out.println(tempFromServer);
                         xmlFileWorking.stringToXML(Resources.TEMP_XML, tempFromServer);
                         Resources.countries = xmlFileWorking.loadCountry(Resources.TEMP_XML);
                         tempFromServer = null;
                     }
                     Resources.clientOut.println("getHoliday");{
                     if ((tempFromServer = Resources.clientIn.readLine())!= null){
-                        System.out.println(tempFromServer);
                         xmlFileWorking.stringToXML(Resources.TEMP_XML, tempFromServer);
                         Resources.holidays = xmlFileWorking.loadHoliday(Resources.TEMP_XML);
                         tempFromServer = null;
@@ -190,35 +189,23 @@ public class RegistrationForm extends JFrame{
                 }
                     Resources.clientOut.println("getTradition");{
                     if ((tempFromServer = Resources.clientIn.readLine())!= null){
-                        System.out.println(tempFromServer);
                         xmlFileWorking.stringToXML(Resources.TEMP_XML, tempFromServer);
                         Resources.traditions = xmlFileWorking.loadTradition(Resources.TEMP_XML);
                         tempFromServer = null;
                     }
-
                 }
-
                 }
-               // Resources.traditions = xmlFileWorking.loadTradition(Resources.TEMP_XML);
                 tempFromServer = null;
             }
 
-
-           // Registration.registration(loginTF.getText(), new String(onePassTF.getPassword()),
-           //         new String(twoPassTF.getPassword()), Resources.traditions, Resources.countries, Resources.holidays);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null,Resources.language.getIO_ERROR());
-            e.printStackTrace();
         } catch (org.jdom2.JDOMException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null,Resources.language.getXML_ERROR());
         } catch (SAXException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null,Resources.language.getXML_ERROR());
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(null, Resources.language.getPARSE_ERROR());
         }
-
-
     }
 }
