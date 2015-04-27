@@ -28,7 +28,10 @@ import java.util.*;
  * Created by root on 22.03.15.
  */
 
-public class AdditionalSearchWindow extends JFrame {
+public class SearchWindow extends JFrame {
+    /*************************
+     * Components
+     *************************/
     static final String IMG_SRC = "resources/img/lupa-32x32.png";
     private ArrayList<Tradition> defaultTradtion = Resources.traditions;
     XmlFileWorking xmlFileWorking = new XmlFileWorking();
@@ -59,13 +62,18 @@ public class AdditionalSearchWindow extends JFrame {
     private final int PARAM_NUM = 1;
     private final int FROM_PARAM_NUM = 2;
     private final int TO_PARAM_NUM = 3;
-    //private JButton addButton;
     private JButton okButton;
-    //private JComboBox chooseComboBox;
 
     private static int currentParamNum = 0;
-
-    public AdditionalSearchWindow(int param_num) {
+    /*************************
+     * Constructors
+     * @param param_num номер для каждого вида окна поиска:
+     *                  1 - поиск по дате;
+     *                  2 - поиск по интервалу дат;
+     *                  3 - расширенный поиск;
+     *                  4 - поиск по регулярным выражениям.
+     */
+    public SearchWindow(int param_num) {
         super(Resources.language.getSEARCH_MENU_BAR());
         currentParamNum = param_num;
         setContentPane(addComponentsToForm(param_num));
@@ -74,17 +82,24 @@ public class AdditionalSearchWindow extends JFrame {
         setLocationRelativeTo(null);
         addListener();
     }
-
+    //Запуск формы через метод main.
     public static void main(final int param_num) {
-
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdditionalSearchWindow(param_num).setVisible(true);
+                new SearchWindow(param_num).setVisible(true);
             }
         });
 
     }
 
+    /****************************
+     * Init form components.
+     ****************************/
+    //Инициализация календаря.
+    //@param_num тип календавря:
+                               //1 - календарь для 0 окна (поиск по датам).
+                               //2 - календарь для 1 окна (интервал поиска от).
+                               //2 - календарь для 1 окна (интервал поиска до).
     private void initCalendar(UtilDateModel dateModel, JDatePanelImpl jDatePanel, int param_num) {
         dateModel = new UtilDateModel();
         Properties pr = new Properties();
@@ -106,7 +121,7 @@ public class AdditionalSearchWindow extends JFrame {
                 break;
         }
     }
-
+    //Инициализация шапки формы.
     private Box initLogo() {
         logoLable = new JLabel();
         logoLable.setIcon(new ImageIcon(IMG_SRC));
@@ -118,7 +133,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.add(logoLable);
         return result;
     }
-
+    //Поиск по дате.
     private Box initDateBox() {
         initCalendar(model, datePanel, PARAM_NUM);
         Box result = Box.createHorizontalBox();
@@ -126,7 +141,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.setBorder(BorderFactory.createTitledBorder(Resources.language.getDATE()));
         return result;
     }
-
+    //Поиск по дате начиная с...
     private Box initLeftDateBox() {
         fromLabel = new JLabel("From:");//Resources.language.getFROM_LABEL());
         Box result = Box.createVerticalBox();
@@ -136,7 +151,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.add(calendarFrom);
         return result;
     }
-
+    //Поиск по дате - конец интервала.
     private Box initRightDateBox() {
         toLabel = new JLabel("To:");//Resources.language.getTO_LABEL());
         Box result = Box.createVerticalBox();
@@ -146,17 +161,9 @@ public class AdditionalSearchWindow extends JFrame {
         result.add(calendarTo);
         return result;
     }
-
+    //Поиск по интервалу дат.
     private Box initBigDateBox() {
         lable1 = new JLabel("       ");
-        /*
-        String[] chooseItem = {
-                "And",
-                "Or"
-        };
-        chooseComboBox = new JComboBox(chooseItem);
-        addButton = new JButton("Add");
-        */
         Box leftDateBox = initLeftDateBox();
         Box rightDateBox = initRightDateBox();
 
@@ -166,7 +173,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.add(rightDateBox);
         return result;
     }
-
+    //Вводя праздника для поиска.
     private Box initHolidayBox() {
         Box result = Box.createHorizontalBox();
         holidayTextField = new JTextField(1);
@@ -174,7 +181,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.setBorder(BorderFactory.createTitledBorder(Resources.language.getHOLIDAY_ITEM()));
         return result;
     }
-
+    //Ввод страны для поиска.
     private Box initCountryBox() {
         Box result = Box.createHorizontalBox();
         countryTextField = new JTextField(15);
@@ -182,7 +189,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.setBorder(BorderFactory.createTitledBorder(Resources.language.getCOUNTRY_ITEM()));
         return result;
     }
-
+    //Окно расширенного поиска.
     private Box initMaskSearchBox(Box holidayBox, Box countryBox) {
         descriptionTextField = new JTextArea();
         descriptionTextField.setLineWrap(true);
@@ -196,7 +203,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.add(descriptionScroll);
         return result;
     }
-
+    //Поиск по регулярным выражениям.
     private Box initRegularQueryBox() {
         regTextField = new JTextField(20);
         Box result = Box.createVerticalBox();
@@ -204,7 +211,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.setBorder(BorderFactory.createTitledBorder(Resources.language.getREGULAR()));
         return result;
     }
-
+    //Контейнер для кнопеи ОК.
     private Container initOkButton() {
         Container result = getContentPane();
         result.setLayout(new BorderLayout());
@@ -212,7 +219,7 @@ public class AdditionalSearchWindow extends JFrame {
         result.add(okButton, BorderLayout.EAST);
         return result;
     }
-
+    //Добавляем все компоненты в форму.
     private Box addComponentsToForm(int param_num) {
         Box logoBox = initLogo();
         Box dateBox = initDateBox();
@@ -251,6 +258,10 @@ public class AdditionalSearchWindow extends JFrame {
         return frameBox;
     }
 
+    /**************************
+     * Methods
+     **************************/
+    //Переводим поле календаря в дату.
     private Date initDate(int paramNum) {
         GregorianCalendar calendarValue = (GregorianCalendar) calendar.getJFormattedTextField().getValue();
         switch (paramNum) {
@@ -276,28 +287,7 @@ public class AdditionalSearchWindow extends JFrame {
         }
         return result;
     }
-
-    private void searchDate(Date dateValue) {
-        try {
-            if (Search.getDateHolidays(dateValue, Resources.holidays).size() != 0) {
-                LinkedList<Holiday> holidays = Search.getDateHolidays(dateValue, Resources.holidays);
-
-                ArrayList<Tradition> traditions = Search.getTraditions(holidays.get(0), Resources.traditions);
-                for (Holiday item : holidays) {
-                    for (Tradition tradition : Search.getTraditions(item, Resources.traditions)) {
-                        traditions.add(tradition);
-                    }
-                }
-                traditions.remove(0);
-                Resources.traditions = traditions;
-            } else {
-                JOptionPane.showMessageDialog(null, Resources.language.getNOT_FOUND());
-            }
-        } catch (IndexOutOfBoundsException exc) {
-            JOptionPane.showMessageDialog(null, "!!!");
-        }
-    }
-
+    //Получаем список дат в промежутке между двумя.
     private ArrayList<Date> getDaysBetweenDates(Date startDate, Date endDate) {
         ArrayList<Date> dates = new ArrayList<Date>();
         Calendar calendar = new GregorianCalendar();
@@ -310,73 +300,101 @@ public class AdditionalSearchWindow extends JFrame {
         }
         return dates;
     }
-
+    //Добавление обработчиков событий.
     private void addListener() {
-        /*addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AdditionalSearchWindow.main(1);
-            }
-        });*/
+        //Кнопка ОК.
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final int PARAM_NUM = 1;
-                final int FROM_PARAM_NUM = 2;
                 switch (currentParamNum) {
+                    //Поиск по дате.
                     case 0:
                         Date dateValue = initDate(PARAM_NUM);
-                        searchDate(dateValue);
+                        try {
+                            Resources.clientOut.println(xmlFileWorking.sendDateToServer_dateSearch(dateValue));
+                            if ((tempForServer = Resources.clientIn.readLine()) != null) {
+                                xmlFileWorking.stringToXML(Resources.TEMP_XML, tempForServer);
+                                Resources.traditions = xmlFileWorking.loadTradition(Resources.TEMP_XML);
+                                tempForServer=null;
+                            }
+                        } catch (IOException exc) {
+                            JOptionPane.showMessageDialog(null,Resources.language.getIO_ERROR());
+                        } catch (org.jdom2.JDOMException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                        } catch (SAXException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                        } catch (ParseException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getPARSE_ERROR());
+                        }
                         break;
+                    //Поиск по интервалу дат.
                     case 1:
                         Date dateFrom = initDate(FROM_PARAM_NUM);
                         final int TO_PARAM_NUM = 3;
                         Date dateTo = initDate(TO_PARAM_NUM);
                         ArrayList<Date> interval = getDaysBetweenDates(dateFrom, dateTo);
+                        defaultTradtion = Resources.traditions;
+                        Resources.traditions = new ArrayList<Tradition>();
                         for (Date item : interval) {
-                            searchDate(item);
+                            try {
+                                Resources.clientOut.println(xmlFileWorking.sendDateToServer_dateSearch(item));
+                                if ((tempForServer = Resources.clientIn.readLine()) != null) {
+                                    xmlFileWorking.stringToXML(Resources.TEMP_XML, tempForServer);
+                                    if (!xmlFileWorking.loadTradition(Resources.TEMP_XML).equals(defaultTradtion)) {
+                                        for (Tradition value : xmlFileWorking.loadTradition(Resources.TEMP_XML)) {
+                                            Resources.traditions.add(value);
+                                        }
+                                    }
+                                    tempForServer=null;
+                                }
+                            } catch (IOException exc) {
+                                JOptionPane.showMessageDialog(null, Resources.language.getIO_ERROR());
+                            } catch (org.jdom2.JDOMException exc) {
+                                JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                            } catch (SAXException exc) {
+                                JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                            } catch (ParseException exc) {
+                                JOptionPane.showMessageDialog(null, Resources.language.getPARSE_ERROR());
+                            }
                         }
                         break;
+                    //Расширенный поиск.
                     case 2:
                         try {
                             Resources.clientOut.println(xmlFileWorking.sendRequestToServer_maskSearch(holidayTextField.getText(),countryTextField.getText(),descriptionTextField.getText()));
                             if ((tempForServer = Resources.clientIn.readLine()) != null) {
-                                System.out.println(tempForServer);
                                 xmlFileWorking.stringToXML(Resources.TEMP_XML, tempForServer);
                                 Resources.traditions = xmlFileWorking.loadTradition(Resources.TEMP_XML);
                                 tempForServer=null;
                             }
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        } catch (JDOMException e1) {
-                            e1.printStackTrace();
-                        } catch (SAXException e1) {
-                            e1.printStackTrace();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
+                        } catch (IOException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getIO_ERROR());
+                        } catch (org.jdom2.JDOMException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                        } catch (SAXException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                        } catch (ParseException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getPARSE_ERROR());
                         }
-                       /* Resources.traditions = Search.maskSearch(holidayTextField.getText(), countryTextField.getText(), descriptionTextField.getText(),
-                                Resources.traditions);*/
                         break;
+                    //Поиск по регулярным выражениям.
                     case 3:
                         try {
                             Resources.clientOut.println(xmlFileWorking.sendRequestToServer_regularSearch(regTextField.getText()));
 
                             if ((tempForServer = Resources.clientIn.readLine()) != null) {
-                                System.out.println(tempForServer);
                                 xmlFileWorking.stringToXML(Resources.TEMP_XML, tempForServer);
                                 Resources.traditions = xmlFileWorking.loadTradition(Resources.TEMP_XML);
                                 tempForServer = null;
-                              //Старое  Resources.traditions = Search.regularSearch(regTextField.toString(), Resources.traditions);
                             }
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        } catch (JDOMException e1) {
-                            e1.printStackTrace();
-                        } catch (SAXException e1) {
-                            e1.printStackTrace();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
+                        } catch (IOException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getIO_ERROR());
+                        } catch (org.jdom2.JDOMException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                        } catch (SAXException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getXML_ERROR());
+                        } catch (ParseException exc) {
+                            JOptionPane.showMessageDialog(null, Resources.language.getPARSE_ERROR());
                         }
                         break;
 
