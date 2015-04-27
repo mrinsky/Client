@@ -55,6 +55,7 @@ public class MainWindow extends JFrame {
     String tempForServer;
 
     public MainWindow(final boolean isGuestMode) {
+        super("Calendar");
         this.isGuestMode = isGuestMode;
 
         this.addWindowListener(new WindowAdapter() {
