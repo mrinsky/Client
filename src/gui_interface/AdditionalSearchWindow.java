@@ -86,7 +86,7 @@ public class AdditionalSearchWindow extends JFrame {
     public static void main(final int param_num) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SearchWindow(param_num).setVisible(true);
+                new AdditionalSearchWindow(param_num).setVisible(true);
             }
         });
 
